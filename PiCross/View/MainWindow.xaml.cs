@@ -1,5 +1,8 @@
-﻿using System;
+﻿using DataStructures;
+using PiCross;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +15,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Grid = DataStructures.Grid;
+using Size = DataStructures.Size;
 
 namespace View
 {
@@ -23,6 +28,11 @@ namespace View
         public MainWindow()
         {
             InitializeComponent();
+
         }
+        
     }
+   
+    
+
 }

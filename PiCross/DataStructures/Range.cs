@@ -41,7 +41,7 @@ namespace DataStructures
         {
             return that != null && this.From == that.From && this.Length == that.Length;
         }
-
+        
         public override int GetHashCode()
         {
             return From.GetHashCode() ^ Length.GetHashCode();
