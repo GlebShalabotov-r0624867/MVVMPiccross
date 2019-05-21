@@ -18,10 +18,12 @@ namespace ViewModel
         public ChangeableSquare(IPlayablePuzzleSquare square)
         {
             this.changeableSquare = square;
-            ChangeColor = new ClickCommand(this);
+            ChangeColorWhite = new ClickCommandRight(this);
+            ChangeColorBlack = new ClickCommandLeft(this);
 
         }
-        public ICommand ChangeColor { get; }
+        public ICommand ChangeColorWhite { get; }
+        public ICommand ChangeColorBlack { get; }
         public Cell<Square> CellContents
         {
             get
@@ -30,11 +32,11 @@ namespace ViewModel
             }
         }
 
-        private class ClickCommand : ICommand
+        private class ClickCommandLeft : ICommand
         {
             private ChangeableSquare _cs;
 
-            public ClickCommand(ChangeableSquare cs)
+            public ClickCommandLeft(ChangeableSquare cs)
             {
                 this._cs = cs;
             }
@@ -50,6 +52,38 @@ namespace ViewModel
                 if (_cs.CellContents.Value == Square.UNKNOWN)
                 {
                     _cs.CellContents.Value = Square.FILLED;
+                }
+                else if (_cs.CellContents.Value == Square.FILLED)
+                {
+                    _cs.CellContents.Value = Square.UNKNOWN;
+                }
+                else if (_cs.CellContents.Value == Square.EMPTY)
+                {
+                    _cs.CellContents.Value = Square.FILLED;
+                }
+            }
+        }
+
+        private class ClickCommandRight : ICommand
+        {
+            private ChangeableSquare _cs;
+
+            public ClickCommandRight(ChangeableSquare cs)
+            {
+                this._cs = cs;
+            }
+            public event EventHandler CanExecuteChanged;
+
+            public bool CanExecute(object parameter)
+            {
+                return true;
+            }
+
+            public void Execute(object parameter)
+            {
+                if (_cs.CellContents.Value == Square.UNKNOWN)
+                {
+                    _cs.CellContents.Value = Square.EMPTY;
                 }
                 else if (_cs.CellContents.Value == Square.FILLED)
                 {

@@ -98,7 +98,7 @@ namespace PiCross.Tests
 
         private static FutureCell<T> CreateFuture<T>()
         {
-            return (FutureCell<T>) Cell.CreateFuture<T>();
+            return (FutureCell<T>)Cell.CreateFuture<T>();
         }
     }
 }

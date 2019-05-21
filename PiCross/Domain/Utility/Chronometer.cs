@@ -18,7 +18,7 @@ namespace Utility
         public Chronometer()
         {
             started = false;
-            totalTime = Cell.Create( TimeSpan.Zero );
+            totalTime = Cell.Create(TimeSpan.Zero );
         }
 
         public void Start()

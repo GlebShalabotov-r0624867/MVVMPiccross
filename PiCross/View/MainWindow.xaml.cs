@@ -27,7 +27,14 @@ namespace View
     {
         public MainWindow()
         {
+           
+            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            var player = new System.Media.SoundPlayer();
+            player.SoundLocation = @"C:\Users\Gleb0\Music\Geluiden\Africa.wav";
+            //player.LoadAsync();
+            player.PlaySync();
             InitializeComponent();
+
 
         }
         

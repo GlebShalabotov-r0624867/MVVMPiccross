@@ -20,7 +20,7 @@ namespace Cells
         }
 
         public SignalFactory( T initialCellContents = default( T ) )
-            : this( Cells.Cell.Create<T>( initialCellContents ) )
+            : this( global::Cells.Cell.Create<T>( initialCellContents ) )
         {
             // NOP
         }

@@ -8,61 +8,81 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace ViewModel
 {
-   public class PuzzleGenerator
+    public class PuzzleGenerator : PiCrossWindow
     {
-      public PuzzleGenerator()
+        public PuzzleGenerator(Navigator navigator) : base(navigator)
         {
-            var puzzle = Puzzle.FromRowStrings(
-                        "xxxxx",
-                        "x...x",
-                        "x...x",
-                        "x...x",
-                        "xxxxx"
-           );
             var facade = new PiCrossFacade();
-            var playablePuzzle = facade.CreatePlayablePuzzle(puzzle);
 
-            playablePuzzle.Grid[new Vector2D(0, 0)].Contents.Value = Square.FILLED;
-            playablePuzzle.Grid[new Vector2D(1, 0)].Contents.Value = Square.EMPTY;
+            var puzzle1 = Puzzle.FromRowStrings(
+                ".......xx.xxxx.",
+                ".....xxx.xxxxxx",
+                "...xxxx.xxxxx.x",
+                "..xxxx.xxxxxxxx",
+                ".xxxx.xxxxx.xxx",
+                "xx...x...x.xxxx",
+                "x.........xxxx.",
+                "x.........xxxx.",
+                ".x.......xxxxx.",
+                ".x.......xxxx..",
+                ".x.......xxxx..",
+                ".x.......xxx...",
+                ".x.......xxx...",
+                ".x.......xx....",
+                ".xxxxxxxxx....."
+            );
 
-            //Grid = playablePuzzle.Grid;
-            //RowConstraints = playablePuzzle.RowConstraints;
-            //ColumnConstraints = playablePuzzle.ColumnConstraints;
+            var puzzle2 = Puzzle.FromRowStrings(
+                ".x...",
+                "xx.xx",
+                ".xxx.",
+                ".xxx.",
+                "..x.."
+                );
+
+            var puzzle3 = Puzzle.FromRowStrings(
+                ".xx....xx.",
+                "...xxxx...",
+                "x.xxxxxx.x",
+                ".xx.xx.xx.",
+                ".xxxxxxxx.",
+                ".x.xxxx.x.",
+                ".xxxxxxxx.",
+                ".xx.xx.xx.",
+                "x.xxxxxx.x",
+                "...xxxx..."
+                );
+            this.Puzzles = new PlayablePuzzles[3];
+            this.Puzzles[0] = new PlayablePuzzles(navigator, puzzle1, "Bread");
+            this.Puzzles[1] = new PlayablePuzzles(navigator, puzzle2, "Chicken");
+            this.Puzzles[2] = new PlayablePuzzles(navigator, puzzle3, "LadyBug");
+
         }
-        
+    
+        public PlayablePuzzles[] Puzzles { get; }
     }
 
-    public class SquareConverter : IValueConverter
+    public class PlayablePuzzles : PiCrossWindow
     {
-        public object Filled { get; set; }
-        public object Empty { get; set; }
-        public object Unknown { get; set; }
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        
+       
+       
+        public PlayablePuzzles(Navigator navigator, Puzzle puzzle, String title) : base(navigator)
         {
-            var square = (Square)value;
-            if (square == Square.EMPTY)
-            {
-                return Empty;
-            }
-            else if (square == Square.FILLED)
-            {
-                return Filled;
-            }
-            else
-            {
-                return Unknown;
-            }
+            this.Size = puzzle.Size.ToString();
+            this.Title = title;
+            SelectPuzzle = new EasyCommand(() => SwitchTo(new PlayableWindow(navigator, puzzle)));
         }
 
+        public String Size { get; }
+        public String Title { get; }
+        public ICommand SelectPuzzle { get; }
+    }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
 
-      }
-    
+
 }

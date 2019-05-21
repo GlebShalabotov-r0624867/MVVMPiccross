@@ -18,9 +18,17 @@ namespace View
         {
             base.OnStartup(e);
             var main = new MainWindow();
-            PlayableWindow pw = new PlayableWindow();
-            main.DataContext = pw;
+            Navigator nav = new Navigator();
+            main.DataContext = nav;
+            //PlayableWindow pw = new PlayableWindow();
+            //main.DataContext = pw;
+            //pw.ClosingAction += MainViewModel_ApplicationExit;
             main.Show();
+        }
+
+        private void MainViewModel_ApplicationExit()
+        {
+            Application.Current.Shutdown();
         }
     }
 }

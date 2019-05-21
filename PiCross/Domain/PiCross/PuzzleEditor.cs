@@ -31,7 +31,7 @@ namespace PiCross
             {
                 this.editorGrid = editorGrid;
                 ambiguityChecker = new AmbiguityChecker( columnConstraints: editorGrid.DeriveColumnConstraints(), rowConstraints: editorGrid.DeriveRowConstraints() );
-                ambiguityGrid = ambiguityChecker.Ambiguities.Map( ( Ambiguity x ) => Cell.Create( x ) ).Copy();
+                ambiguityGrid = ambiguityChecker.Ambiguities.Map((Ambiguity x) => Cell.Create(x)).Copy();
 
                 facadeGrid = editorGrid.Contents.Map( position => new PuzzleEditorSquare( this, position, ambiguityGrid[position] ) ).Copy();
                 columnConstraints = editorGrid.Contents.ColumnIndices.Select( x => new PuzzleEditorColumnConstraints( editorGrid, x ) ).ToSequence();

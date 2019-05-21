@@ -28,7 +28,7 @@ namespace ViewModel
             get
             {
                 return this.columnConstraints.IsSatisfied;
-                
+
             }
         }
 

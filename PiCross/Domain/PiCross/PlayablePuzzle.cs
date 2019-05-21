@@ -35,9 +35,9 @@ namespace PiCross
                 this.Grid = playGrid.Squares.Map( ( position, var ) => new PlayablePuzzleSquare( this, var, position ) ).Copy();
                 this.columnConstraints = this.playGrid.ColumnConstraints.Map( constraints => new PlayablePuzzleConstraints( constraints ) ).Copy();
                 this.rowConstraints = this.playGrid.RowConstraints.Map( constraints => new PlayablePuzzleConstraints( constraints ) ).Copy();
-                this.IsSolved = Cell.Derived( DeriveIsSolved );
-                this.UnknownCount = Cell.Derived( DeriveUnknownCount );
-                this.ContainsUnknowns = Cell.Derived( DeriveContainsUnknowns );
+                this.IsSolved = Cell.Derived( this.DeriveIsSolved );
+                this.UnknownCount = Cell.Derived( this.DeriveUnknownCount );
+                this.ContainsUnknowns = Cell.Derived( this.DeriveContainsUnknowns );
             }
         }
 

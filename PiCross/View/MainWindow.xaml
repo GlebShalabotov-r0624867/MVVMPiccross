@@ -6,97 +6,288 @@
         xmlns:local="clr-namespace:View"
         xmlns:controls="clr-namespace:View.Controls"
         xmlns:converters="clr-namespace:View.Converters"
+        xmlns:viewModel="clr-namespace:ViewModel;assembly=ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="PiCross" Height="800" Width="900"
+        >
     <Window.Resources>
         <converters:SquareColorConverter x:Key="squareConverter" />
-        <!--<converters:PaintConstraintValue x:Key="paintConverter"/>-->
+        <converters:PaintConstraintValue x:Key="squarConstraintConverter"/>
+        <converters:WholeConstraint x:Key="wholeContraintsConverter"/>
+        <converters:HideVisuals x:Key="hideVisuals"/>
+        
+        <Style x:Key="Solved" TargetType="{x:Type TextBlock}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="Green" Offset="0" />
+                        <GradientStop Color="LightGoldenrodYellow" Offset="1" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="50"/>
+            <Setter Property="Padding" Value="30px"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+        <Style x:Key="ButtonLayoutLevel" TargetType="{x:Type Button}">
+            <Setter Property="Padding" Value="5px"/>
+            <Setter Property="Margin" Value="0px,3px,3px,3px"/>
+            <Setter Property="FontSize" Value="16"/>
+            
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#cc687a" Offset="0" />
+                        <GradientStop Color="#e0aab4" Offset="1" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <!--<Style.Triggers>
+                <EventTrigger RoutedEvent="PreviewMouseDown">
+                    <SoundPlayerAction Source="C:\Users\Gleb0\Music\Geluiden\Africa.wav" />
+                </EventTrigger>
+            </Style.Triggers>-->
+        </Style>
+        <Style x:Key="ButtonLayoutGame" TargetType="{x:Type Button}">
+            <Setter Property="Padding" Value="5px"/>
+            <Setter Property="Margin" Value="3px"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Width" Value="150px"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#cc687a" Offset="0" />
+                        <GradientStop Color="#e0aab4" Offset="1" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="GridLevelLayout" TargetType="{x:Type Grid}">
+            <Setter Property="Width" Value="500px"/>
+            <Setter Property="MinWidth" Value="300px"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter  Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="GridText" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Padding" Value="5px"/>
+            <Setter Property="Margin" Value="3px,3px,0px,3px"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
+                        <GradientStop Color="#cc687a" Offset="0" />
+                        <GradientStop Color="#e0aab4" Offset="1" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="StackpanelStart" TargetType="StackPanel">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="ButtonInStack" TargetType="Button">
+            <Setter Property="Padding" Value="20px"/>
+            <Setter Property="Margin" Value="10px"/>
+            <Setter Property="FontSize" Value="30"/>
+        </Style>
+        <Style x:Key="PlayGridBackground" TargetType="Grid">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#8c7e69" Offset="0" />
+                        <GradientStop Color="#c9b393" Offset="1" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+       
+        </Style>
+        <Style x:Key="SoundButton" TargetType="Button">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="PreviewMouseDown">
+                    <SoundPlayerAction Source="C:\Users\Gleb0\Music\Geluiden\Click.wav" />
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
-    <Grid>
-        <controls:PiCrossControl x:Name="picrossControl" Grid="{Binding Grid}"
+    <ContentPresenter Content="{Binding CurrentWindow}">
+        <ContentPresenter.Resources>
+            <DataTemplate DataType="{x:Type viewModel:StartScreen}">
+                <StackPanel Style="{StaticResource StackpanelStart}">
+                    <Button Style="{StaticResource ButtonInStack}"
+                            Command="{Binding Start}" 
+                            Content="Start" />
+                    <Button Style="{StaticResource ButtonInStack}"  
+                            Command="{Binding ChoosePuzzle}" 
+                            Content="Choose Level" />
+                    
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:PlayableWindow}">
+                <Grid Style="{StaticResource PlayGridBackground}">
+                    
+                    <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <controls:PiCrossControl x:Name="picrossControl" Grid="{Binding Grid}"
                                  VerticalAlignment="Center" HorizontalAlignment="Center"
                                  ColumnConstraints="{Binding ColumnConstraints}"
-                                 RowConstraints="{Binding RowConstraints}">
+                                 RowConstraints="{Binding RowConstraints}"
+                                             Grid.ColumnSpan="2">
 
-            <controls:PiCrossControl.SquareTemplate>
-
-                <DataTemplate>
-                    <Button Command="{Binding ChangeColor}">
-                        <Button.Content>
-                            <Rectangle Width="32" Height="32" Stroke="Black">
-                                <Rectangle.Fill>
-                                    <Binding Path="CellContents.Value">
-                                        <Binding.Converter>
-                                            <converters:SquareColorConverter Empty="White" Filled="Black" Unknown="Gray" />
-                                        </Binding.Converter>
-                                    </Binding>
-                                </Rectangle.Fill>
-                            </Rectangle>
-                        </Button.Content>
-                    </Button>
-                </DataTemplate>
-
-            </controls:PiCrossControl.SquareTemplate>
-            <controls:PiCrossControl.ColumnConstraintsTemplate  >
-                <DataTemplate>
-                    <ItemsControl ItemsSource="{Binding Values}">
-                        <ItemsControl.ItemsPanel>
-
-                            <ItemsPanelTemplate>
-
-                                <StackPanel Orientation="vertical">
-                                          
-                                </StackPanel>
-                            </ItemsPanelTemplate>
-
-                        </ItemsControl.ItemsPanel>
-
-                        <ItemsControl.ItemTemplate>
+                        <controls:PiCrossControl.SquareTemplate>
 
                             <DataTemplate>
-
-                                <TextBlock Width="32" Height="32" Text="{Binding Value}"  />
-
+                                <Button Style="{StaticResource SoundButton}">
+                                    <Button.InputBindings>
+                                        <MouseBinding Gesture="RightClick" Command="{Binding ChangeColorWhite}" />
+                                        <MouseBinding Gesture="LeftClick" Command="{Binding ChangeColorBlack}"/>
+                                    </Button.InputBindings>
+                                    <Button.Content>
+                                        <Rectangle Width="32" Height="32" Stroke="Black">
+                                            <Rectangle.Fill>
+                                                <Binding Path="CellContents.Value">
+                                                    <Binding.Converter>
+                                                        <converters:SquareColorConverter Empty="White" Filled="Black" Unknown="Gray" />
+                                                    </Binding.Converter>
+                                                </Binding>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                    </Button.Content>
+                                </Button>
                             </DataTemplate>
 
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </DataTemplate>
-            </controls:PiCrossControl.ColumnConstraintsTemplate>
-            <controls:PiCrossControl.RowConstraintsTemplate>
+                        </controls:PiCrossControl.SquareTemplate>
+                        <controls:PiCrossControl.ColumnConstraintsTemplate  >
+                            <DataTemplate >
+                                <ItemsControl ItemsSource="{Binding Values}" >
+                                    <ItemsControl.ItemsPanel>
 
-                <DataTemplate>
+                                        <ItemsPanelTemplate>
 
-                    <ItemsControl ItemsSource="{Binding Values}">
+                                            <StackPanel Orientation="vertical" Background="{Binding IsSatisfied.Value, 
+                                            Converter={StaticResource wholeContraintsConverter}}"/>
 
-                        <ItemsControl.ItemsPanel>
 
-                            <ItemsPanelTemplate>
+                                        </ItemsPanelTemplate>
 
-                                <StackPanel Orientation="Horizontal"  />
+                                    </ItemsControl.ItemsPanel>
 
-                            </ItemsPanelTemplate>
+                                    <ItemsControl.ItemTemplate>
 
-                        </ItemsControl.ItemsPanel>
+                                        <DataTemplate>
 
-                        <ItemsControl.ItemTemplate>
+                                            <TextBlock Width="32" Height="32" VerticalAlignment="Center" FontSize="10" Text="{Binding Value}" TextAlignment="Center" Background="{Binding IsSatisfied.Value, 
+                                    Converter={StaticResource squarConstraintConverter}}" />
+
+                                        </DataTemplate>
+
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </DataTemplate>
+                        </controls:PiCrossControl.ColumnConstraintsTemplate>
+                        <controls:PiCrossControl.RowConstraintsTemplate>
 
                             <DataTemplate>
+                                
+                                 
+                                <ItemsControl ItemsSource="{Binding Values}">
+
+                                    <ItemsControl.ItemsPanel>
+
+                                        <ItemsPanelTemplate>
+
+                                            <StackPanel Orientation="Horizontal"  Background="{Binding IsSatisfied.Value, 
+                                    Converter={StaticResource wholeContraintsConverter}}" />
+
+                                        </ItemsPanelTemplate>
+
+                                    </ItemsControl.ItemsPanel>
+
+                                    <ItemsControl.ItemTemplate>
+
+                                        <DataTemplate>
 
 
-                                <TextBlock Width="32" Height="32" Text="{Binding Value}" />
+                                            <TextBlock Width="32" Height="32" Text="{Binding Value}"  Background="{Binding IsSatisfied.Value, 
+                                    Converter={StaticResource squarConstraintConverter}}" />
 
+                                        </DataTemplate>
+
+                                    </ItemsControl.ItemTemplate>
+
+                                </ItemsControl>
+                               
                             </DataTemplate>
 
-                        </ItemsControl.ItemTemplate>
+                        </controls:PiCrossControl.RowConstraintsTemplate>
+                        
+                        
+                    </controls:PiCrossControl>
+                    <Grid Grid.ColumnSpan="2" VerticalAlignment="Bottom">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Command="{Binding Refresh}" Style="{StaticResource ButtonLayoutGame}"
+                                Content="Refresh"/>
+                        <Button Grid.Column="1" Command="{Binding ChooseOther}" Style="{StaticResource ButtonLayoutGame}"
+                                Content="Other Level"/>
+                    </Grid>
+                    <TextBlock Background="DarkBlue" 
+                               HorizontalAlignment="Stretch" 
+                               VerticalAlignment="Stretch" 
+                               Visibility="{Binding IsSolved.Value, 
+                        Converter={StaticResource hideVisuals}}"
+                               Grid.ColumnSpan="2">
+                    </TextBlock>
+                    <StackPanel VerticalAlignment="Center" 
+                                Visibility="{Binding IsSolved.Value,
+                        Converter={StaticResource hideVisuals}}"
+                                Grid.ColumnSpan="2">
+                        <TextBlock Style="{StaticResource Solved}">
+                            <TextBlock.Text>Puzzle solved!</TextBlock.Text>
+                        </TextBlock>
 
-                    </ItemsControl>
+                        <Button Command="{Binding Refresh}">Play again</Button>
 
-                </DataTemplate>
+                        <Button Command="{Binding BackToStart}">Quit</Button>
+                    </StackPanel>
+                </Grid>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:PuzzleGenerator}">
+                <ItemsControl ItemsSource="{Binding Puzzles}" Background="#8c676e">
 
-            </controls:PiCrossControl.RowConstraintsTemplate>
-        </controls:PiCrossControl>
+                    <!--<ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>-->
 
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Style="{StaticResource GridLevelLayout}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Style="{StaticResource GridText}" Text="{Binding Size}"/>
+                                <Button Grid.Column="1"
+                                        Style="{StaticResource ButtonLayoutLevel}" 
+                                        Command="{Binding SelectPuzzle}" 
+                                        Content="{Binding Title}"/>
+                                
+                            </Grid>
+                           
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
 
-    </Grid>
+                </ItemsControl>
+            </DataTemplate>
+        </ContentPresenter.Resources>
+    </ContentPresenter>
+    
 </Window>
