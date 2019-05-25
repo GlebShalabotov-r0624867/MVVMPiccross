@@ -17,12 +17,13 @@ namespace ViewModel
             this.columnConstraints = constraints;
             //constraints hebben een value, dus ik moet deze ook hebben om te zien als ik een match heb
             //om te zien als deze matchen   
-            this.Values = this.columnConstraints.Values.Map(value => new ChangeableValue(value));
+            this.Values = this.columnConstraints.Values.Map(value => new ChangeableValue(value, IsSatisfied));
 
 
         }
         public ISequence<ChangeableValue> Values { get; }
-
+       
+       
         public Cell<bool> IsSatisfied
         {
             get

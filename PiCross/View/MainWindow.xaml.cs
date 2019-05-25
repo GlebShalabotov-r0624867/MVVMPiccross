@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,19 +26,18 @@ namespace View
     /// </summary>
     public partial class MainWindow : Window
     {
+        public Uri clicksound { get; set; }
         public MainWindow()
         {
            
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-            var player = new System.Media.SoundPlayer();
-            player.SoundLocation = @"C:\Users\Gleb0\Music\Geluiden\Africa.wav";
-            //player.LoadAsync();
-            player.PlaySync();
+            
             InitializeComponent();
-
+         
 
         }
-        
+
+
     }
    
     

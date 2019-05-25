@@ -7,6 +7,8 @@
         xmlns:controls="clr-namespace:View.Controls"
         xmlns:converters="clr-namespace:View.Converters"
         xmlns:viewModel="clr-namespace:ViewModel;assembly=ViewModel"
+        xmlns:properties="clr-namespace:View.Properties"
+       x:Name="w"
         mc:Ignorable="d"
         Title="PiCross" Height="800" Width="900"
         >
@@ -15,6 +17,7 @@
         <converters:PaintConstraintValue x:Key="squarConstraintConverter"/>
         <converters:WholeConstraint x:Key="wholeContraintsConverter"/>
         <converters:HideVisuals x:Key="hideVisuals"/>
+        <converters:UriConcerter x:Key="uriconverter"/>
         
         <Style x:Key="Solved" TargetType="{x:Type TextBlock}">
             <Setter Property="Background">
@@ -43,18 +46,14 @@
                     </LinearGradientBrush>
                 </Setter.Value>
             </Setter>
-            <!--<Style.Triggers>
-                <EventTrigger RoutedEvent="PreviewMouseDown">
-                    <SoundPlayerAction Source="C:\Users\Gleb0\Music\Geluiden\Africa.wav" />
-                </EventTrigger>
-            </Style.Triggers>-->
+           
         </Style>
         <Style x:Key="ButtonLayoutGame" TargetType="{x:Type Button}">
             <Setter Property="Padding" Value="5px"/>
             <Setter Property="Margin" Value="3px"/>
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="Width" Value="150px"/>
-            <Setter Property="Height" Value="30"/>
+            <Setter Property="Height" Value="50px"/>
             <Setter Property="Background">
                 <Setter.Value>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -104,12 +103,19 @@
             </Setter>
        
         </Style>
-        <Style x:Key="SoundButton" TargetType="Button">
+        <!--<Style x:Key="SoundButton" TargetType="Button">
             <Style.Triggers>
                 <EventTrigger RoutedEvent="PreviewMouseDown">
-                    <SoundPlayerAction Source="C:\Users\Gleb0\Music\Geluiden\Click.wav" />
+                    <SoundPlayerAction Source="C:\Users\Gleb0\Documents\Programmeren\Directories\VGO\picross\PiCross\View\bin\Click.wav" />
                 </EventTrigger>
             </Style.Triggers>
+        </Style>-->
+        <Style x:Key="ConstrainTextBlock" TargetType="TextBlock">
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="11"/>
+            
         </Style>
     </Window.Resources>
     <ContentPresenter Content="{Binding CurrentWindow}">
@@ -141,13 +147,14 @@
                         <controls:PiCrossControl.SquareTemplate>
 
                             <DataTemplate>
-                                <Button Style="{StaticResource SoundButton}">
+                                <Button >
+                                    <!--Style="{StaticResource SoundButton}"-->
                                     <Button.InputBindings>
-                                        <MouseBinding Gesture="RightClick" Command="{Binding ChangeColorWhite}" />
+                                        <MouseBinding Gesture="RightClick" Command="{Binding ChangeColorWhite}"  />
                                         <MouseBinding Gesture="LeftClick" Command="{Binding ChangeColorBlack}"/>
                                     </Button.InputBindings>
                                     <Button.Content>
-                                        <Rectangle Width="32" Height="32" Stroke="Black">
+                                         <Rectangle Width="32" Height="32" Stroke="Black" HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Rectangle.Fill>
                                                 <Binding Path="CellContents.Value">
                                                     <Binding.Converter>
@@ -180,7 +187,9 @@
 
                                         <DataTemplate>
 
-                                            <TextBlock Width="32" Height="32" VerticalAlignment="Center" FontSize="10" Text="{Binding Value}" TextAlignment="Center" Background="{Binding IsSatisfied.Value, 
+                                            <TextBlock Width="32" Height="32" Style="{StaticResource ConstrainTextBlock}"  Text="{Binding Value}"
+                                                       TextAlignment="Center" 
+                                                       Foreground="{Binding IsSatisfied.Value, 
                                     Converter={StaticResource squarConstraintConverter}}" />
 
                                         </DataTemplate>
@@ -212,8 +221,12 @@
                                         <DataTemplate>
 
 
-                                            <TextBlock Width="32" Height="32" Text="{Binding Value}"  Background="{Binding IsSatisfied.Value, 
-                                    Converter={StaticResource squarConstraintConverter}}" />
+                                            <TextBlock Width="32" Height="32" Text="{Binding Value}" 
+                                                       Style="{StaticResource ConstrainTextBlock}" 
+                                                       Foreground="{Binding IsSatisfied.Value, 
+                                    Converter={StaticResource squarConstraintConverter}}" >
+                                                
+                                            </TextBlock>
 
                                         </DataTemplate>
 
@@ -237,7 +250,7 @@
                         <Button Grid.Column="1" Command="{Binding ChooseOther}" Style="{StaticResource ButtonLayoutGame}"
                                 Content="Other Level"/>
                     </Grid>
-                    <TextBlock Background="DarkBlue" 
+                    <TextBlock Background="Transparent" 
                                HorizontalAlignment="Stretch" 
                                VerticalAlignment="Stretch" 
                                Visibility="{Binding IsSolved.Value, 
@@ -249,12 +262,12 @@
                         Converter={StaticResource hideVisuals}}"
                                 Grid.ColumnSpan="2">
                         <TextBlock Style="{StaticResource Solved}">
-                            <TextBlock.Text>Puzzle solved!</TextBlock.Text>
+                            <TextBlock.Text>Whoopie!</TextBlock.Text>
                         </TextBlock>
 
-                        <Button Command="{Binding Refresh}">Play again</Button>
+                        <Button Style="{StaticResource ButtonLayoutGame}" Command="{Binding Refresh}">Play again</Button>
 
-                        <Button Command="{Binding BackToStart}">Quit</Button>
+                        <Button Style="{StaticResource ButtonLayoutGame}" Command="{Binding BackToStart}">Menu</Button>
                     </StackPanel>
                 </Grid>
             </DataTemplate>

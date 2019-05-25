@@ -18,13 +18,12 @@ namespace ViewModel
         public PlayableWindow(Navigator navigator, Puzzle puzzle = null) : base(navigator)
         {
 
-
-            //activeWindow = this;
+            
             if (puzzle == null) { 
                 puzzle = Puzzle.FromRowStrings(
                         "xxx",
-                        "x.x",
-                        "x.."
+                        "x..",
+                        "x.x"
                 );
             }
             var facade = new PiCrossFacade();
@@ -32,9 +31,9 @@ namespace ViewModel
 
 
 
-            this.Grid = playablePuzzle.Grid.Map(square => new ChangeableSquare(square));
-            this.ColumnConstraints = playablePuzzle.ColumnConstraints;
-            this.RowConstraints = playablePuzzle.RowConstraints;
+            this.Grid = playablePuzzle.Grid.Map(square => new ChangeableSquare(square)).Copy();
+            this.ColumnConstraints = playablePuzzle.ColumnConstraints/*.Map(constraints => new ChangeableCC(constraints)).Copy()*/;
+            this.RowConstraints = playablePuzzle.RowConstraints/*.Map(constraints => new ChangeableCC(constraints)).Copy()*/;
 
             BackToStart = new EasyCommand(() => SwitchTo(new StartScreen(navigator)));
             Refresh = new EasyCommand(() => SwitchTo(new PlayableWindow(navigator,puzzle)));

@@ -20,7 +20,7 @@ namespace View.Converters
                 }
                 else
                 {
-                    return new SolidColorBrush(Colors.Transparent);
+                    return new SolidColorBrush(Colors.Black);
                 }
             }
 

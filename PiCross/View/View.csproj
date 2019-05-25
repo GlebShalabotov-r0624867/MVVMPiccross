@@ -78,6 +78,7 @@
     <Compile Include="Converters\INoBackConverter.cs" />
     <Compile Include="Converters\PaintConstraintValue.cs" />
     <Compile Include="Converters\SquareColorConverter.cs" />
+    <Compile Include="Converters\UriConcerter.cs" />
     <Compile Include="Converters\WholeConstraint.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -99,7 +100,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
@@ -127,6 +128,9 @@
       <Project>{4108cc47-2812-42b6-beb8-d95486ba165f}</Project>
       <Name>ViewModel</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Click.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -56,10 +56,24 @@ namespace ViewModel
                 "x.xxxxxx.x",
                 "...xxxx..."
                 );
-            this.Puzzles = new PlayablePuzzles[3];
+            var puzzle4 = Puzzle.FromRowStrings(
+                "x..x.....x",
+                "xx.xx...xx",
+                ".xx.xxxxx.",
+                "..xx.....x",
+                "..x.......",
+                "..x.x....x",
+                ".x.xx...xx",
+                ".xx...x...",
+                ".xx..xxx..",
+                "..xx.....x"
+                );
+            this.Puzzles = new PlayablePuzzles[4];
             this.Puzzles[0] = new PlayablePuzzles(navigator, puzzle1, "Bread");
             this.Puzzles[1] = new PlayablePuzzles(navigator, puzzle2, "Chicken");
             this.Puzzles[2] = new PlayablePuzzles(navigator, puzzle3, "LadyBug");
+            this.Puzzles[3] = new PlayablePuzzles(navigator, puzzle4, "Pikachu");
+
 
         }
     
